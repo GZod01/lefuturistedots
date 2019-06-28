@@ -107,17 +107,21 @@ Use `playerctl`
 
 You can use `nmcli` util to show a gui
 
-### Get wireless interface
+#### Get wireless interface
 
 `iwconfig`
 
-### Get status of all devices
+#### Get status of all devices
 
 `nmcli device`
 
-### Connect to a specific network
+#### Connect to a specific network
 
 `nmcli device wifi connect {ssid} password {password}`
+
+### Control laptop screen brigthnesss
+
+Use [haikarainen/light](https://github.com/haikarainen/light)
 
 ## Start from scratch
 
