@@ -57,6 +57,7 @@
     - Etcher
     - Inkscape
     - OBS
+    - xflux
 
 
 ### Setup ssh keys
@@ -122,6 +123,10 @@ You can use `nmcli` util to show a gui
 ### Control laptop screen brigthnesss
 
 Use [haikarainen/light](https://github.com/haikarainen/light)
+
+### Use Flux
+
+`xflux -l 49.1754262 -g 1.3301737`
 
 ## Start from scratch
 
