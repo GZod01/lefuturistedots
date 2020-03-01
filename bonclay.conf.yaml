@@ -1,0 +1,17 @@
+# For a detailed description on the different options and how to configure them,
+# refer to the user guide: https://github.com/talal/bonclay/blob/master/doc/guide.md
+backup:
+  overwrite: false
+
+restore:
+  overwrite: false
+
+sync:
+  clean: true
+  overwrite: true
+
+spec:
+  ~/.config/i3/config: i3/config
+  ~/.config/i3status/config: i3status/config
+  ~/.config/rofi/config: rofi/config
+  /etc/php/php.ini: php/php.ini
