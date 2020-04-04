@@ -128,6 +128,14 @@ Use [haikarainen/light](https://github.com/haikarainen/light)
 
 `xflux -l 49.1754262 -g 1.3301737`
 
+### Disable middle button click paste
+
+Use the [XMousePasteBlock package](https://github.com/milaq/XMousePasteBlock).
+
+Install with `yay`: `yay xmousepasteblock`.
+
+Then create a systemd service or put the `xmousepasteblock` command in startup script.
+
 ## Start from scratch
 
 - install a archlinux on the computer
