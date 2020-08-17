@@ -162,6 +162,5 @@ func main() {
 		}
 
 		time.Sleep(time.Duration(sleepPeriod) * time.Minute)
-		fmt.Println("WOW")
 	}
 }
