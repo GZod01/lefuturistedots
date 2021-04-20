@@ -219,11 +219,11 @@ bindsym $mod+Next exec "sudo light -U 5"
 bindsym $mod+Prior exec "sudo light -A 5"
 
 # volume
-bindsym XF86AudioRaiseVolume exec "node ~/scripts/volume.js UP"
-bindsym $mod+F3 exec "node ~/scripts/volume.js UP"
+bindsym XF86AudioRaiseVolume exec "node ~/dots/audio/volume.js UP"
+bindsym $mod+F3 exec "node ~/dots/audio/volume.js UP"
 
-bindsym XF86AudioLowerVolume exec "node ~/scripts/volume.js DOWN"
-bindsym $mod+F2  exec "node ~/scripts/volume.js DOWN"
+bindsym XF86AudioLowerVolume exec "node ~/dots/audio/volume.js DOWN"
+bindsym $mod+F2 exec "node ~/dots/audio/volume.js DOWN"
 
 # mute
 bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
@@ -240,7 +240,7 @@ bindsym $mod+F7 exec playerctl --ignore-player=chromium previous
 bindsym $mod+F8 exec playerctl --ignore-player=chromium next
 
 # Redirect sound to headphone
-bindsym $mod+F12 exec "node ~/scripts/switch_audio_device.js"
+bindsym $mod+F12 exec "node ~/dots/audio/switch_device.js"
 
 # setup single screen
 #bindsym $mod+F11 exec "xrandr --auto"
