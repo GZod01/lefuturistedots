@@ -43,8 +43,9 @@ ethernet enp5s0 {
 }
 
 battery 1 {
+    path = "/sys/class/power_supply/BAT1/uevent"
     format = "%status %percentage"
-    format_down = ""
+    format_down = "No battery"
     last_full_capacity = true
     integer_battery_capacity = true
     low_threshold = 11
