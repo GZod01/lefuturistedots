@@ -1,19 +1,49 @@
-# volume manager 
-# usage: sh volume.sh (UP|DOWN)
+#!/usr/bin/sh
 
-VOLUME=$(amixer sget Master | grep -oP '([0-9]+)%' | head -n 1 | sed s/%//)
-UP="UP"
-if (( $VOLUME >= 100 )); then
-	if [ "$1" == "$UP" ]; then
-		pactl set-sink-volume 0 100% && pactl set-sink-volume 1 100%
-	else
-		pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%
+# volume manager
+
+function usage() {
+	echo "usage: sh volume.sh <UP|DOWN|(number between 0 and 999)>"
+}
+
+function setvol() {
+	pactl set-sink-volume 0 $1 > /dev/null 2>&1
+	pactl set-sink-volume 1 $1 > /dev/null 2>&1
+	# TODO: add a loop to set volume for all connected devices not just for the first 2
+}
+
+function main() {
+	VOLUME=$(amixer sget Master | grep -oP '([0-9]+)%' | head -n 1 | sed s/%//)
+
+	# verify number of arguments
+	if (( $# != 1 )); then
+		usage
+		return 1
 	fi
-else
-	if [ "$1" == "$UP" ]; then
-		pactl set-sink-volume 0 +5% && pactl set-sink-volume 1 +5%
-	else
-		pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%
-	fi	
-fi
 
+	if [ $1 == 'UP' ]; then
+		if (( $VOLUME >= 100 )); then
+			setvol '100%'
+			return 0
+		fi
+		setvol '+5%'
+		return 0
+	fi
+
+	if [ $1 == 'DOWN' ]; then
+		setvol '-5%'
+		return 0
+	fi
+
+	if (echo $1 | grep --extended-regexp -q '^(0+)?[0-9]{1,3}$'); then
+		setvol $1'%'
+		return 0
+	fi
+
+	usage
+
+	return 1
+}
+
+# expand all arguments with $@
+main $@
