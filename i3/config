@@ -219,14 +219,19 @@ bindsym $mod+Next exec "sudo light -U 5"
 bindsym $mod+Prior exec "sudo light -A 5"
 
 # volume
-bindsym XF86AudioRaiseVolume exec "node ~/dots/audio/volume.js UP"
-bindsym $mod+F3 exec "node ~/dots/audio/volume.js UP"
+# changelog: now using shell script instead of node.js, much more efficiant
+# at least, I guess
+# before: "node ~/dots/audio/volume.js UP"
+# now: "~/dots/audio/volume.sh UP"
+bindsym XF86AudioRaiseVolume exec "sh ~/dots/audio/volume.sh UP"
+bindsym $mod+F3 exec "sh ~/dots/audio/volume.sh UP"
 
-bindsym XF86AudioLowerVolume exec "node ~/dots/audio/volume.js DOWN"
-bindsym $mod+F2 exec "node ~/dots/audio/volume.js DOWN"
+bindsym XF86AudioLowerVolume exec "sh ~/dots/audio/volume.sh DOWN"
+bindsym $mod+F2 exec "sh ~/dots/audio/volume.sh DOWN"
 
 # mute
 bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
+# WTF is i3blocks killed here?
 
 # media control
 bindsym XF86AudioPlay exec playerctl --ignore-player=chromium play-pause
