@@ -31,6 +31,7 @@
         - Ability to manage last images saved (CRUD)
         - In gnome file manager or others, have a way to get the last image quickely to be uploaded
     - [ssher](https://github.com/lefuturiste/ssher) (cli as node package)
+	- [batterytator](https://github.com/lefuturiste/batterytator) (battery monitoring solutions)
     - Jetbrains
         - PHPStorm
         - Idea
@@ -41,14 +42,14 @@
     - Insomnia
     - VSCode
     - Subl3
-    - feh (image utility)
+    - feh (image viewer)
     - Tunderbird
     - Discord
     - Whatsapp
     - Spotify
     - Android Studio
     - Arduino IDE
-    - GitKracken
+    - GitKraken
     - Audacity
     - Shotcut
     - FileZilla
@@ -57,8 +58,9 @@
     - Etcher
     - Inkscape
     - OBS
-    - xflux
-
+    - xflux (Xorg version of [https://justgetflux.com/](https://justgetflux.com/))
+	- MySQL client: [mycli.net](https://www.mycli.net/)
+	
 
 ### Setup ssh keys
 
