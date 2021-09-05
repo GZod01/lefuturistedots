@@ -278,6 +278,9 @@ bindsym $mod+d exec "rofi -show drun"
 # launch file explorer
 bindsym $mod+e exec "/usr/bin/thunar"
 
+# launch xeyes
+bindsym $mod+y exec xeyes
+
 # launch terminator
 bindsym $mod+Return exec terminator
 bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
@@ -302,6 +305,11 @@ for_window [class="Kalu"] floating enable
 for_window [class="SpeedCrunch"] floating enable
 for_window [class="DevGame"] floating enable
 
+for_window [class="xclock"] floating enable
+for_window [class="XEyes" instance="xeyes"] floating enable
+
 for_window [class="SpeedCrunch"] floating_minimum_size 200 x 200
 for_window [class="SpeedCrunch"] floating_maximum_size 300 x 300
-for_window [class="Open File"] floating_maximum_size 800 x 600
+for_window [class="Open File"] floating_maximum_size 700 x 500
+
+for_window [window_role="pop-up"] floating enable
