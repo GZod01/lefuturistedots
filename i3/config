@@ -270,16 +270,20 @@ bindsym $mod+F5 exec curl https://home-api.lefuturiste.fr/group/desktop_speaker/
 bindsym $mod+s exec "rofi -show window"
 
 # Show list of desktop entries
-bindsym $mod+d exec "rofi -show drun"
+bindsym $mod+d exec "env GTK_THEME=Adwaita:dark rofi -show drun"
 
 # launch firefox
 #bindsym $mod+w exec "/usr/bin/firefox"
 
 # launch file explorer
-bindsym $mod+e exec "/usr/bin/thunar"
+#bindsym $mod+e exec "/usr/bin/thunar"
+bindsym $mod+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
 
 # launch xeyes
 bindsym $mod+y exec xeyes
+
+# launch xbanish
+bindsym $mod+Shift+B exec xbanish
 
 # launch terminator
 bindsym $mod+Return exec terminator
