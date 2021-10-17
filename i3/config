@@ -188,7 +188,7 @@ bar {
         
 	colors {
 		background $bg-color
-	    	separator #757575
+		separator #757575
 		#                  border             background         text
 		focused_workspace  $bg-color          $bg-color          $text-color
 		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
@@ -196,21 +196,25 @@ bar {
 	}
 }
 
+set $lockCmd "i3lock -i $HOME/dots/lock/lock_background.png"
+
 # Autostart apps
 #exec --no-startup-id /usr/bin/xfce4-clipman
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id "compton -cC"
+#exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nm-applet
 exec --no-startup-id "nitrogen --restore"
-exec --no-startup-id "sleep 5s && kalu"
+
+# Autostart xbanish to hide cursor when typing
+exec --no-startup-id "xbanish &"
 
 # Autostart autolock
-exec xautolock -detectsleep -time 5 -locker "$HOME/dots/lock/lock.sh" \
+exec xautolock -detectsleep -time 5 -locker $lockCmd \
   -notify 30 \
   -notifier "notify-send -u critical -t 10000 -- 'locking screen in 30 seconds'"
 
 # lock
-bindsym $mod+Shift+x exec i3lock --color 475263
+#bindsym $mod+Shift+x exec $lockCmd
+bindsym $mod+x exec $lockCmd
 
 # laptop brightness
 bindsym XF86MonBrightnessUp exec "sudo light -A 5"
@@ -275,28 +279,33 @@ bindsym $mod+d exec "env GTK_THEME=Adwaita:dark rofi -show drun"
 # launch firefox
 #bindsym $mod+w exec "/usr/bin/firefox"
 
-# launch file explorer
+# Launch files explorer
 #bindsym $mod+e exec "/usr/bin/thunar"
 bindsym $mod+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
 
-# launch xeyes
+# Launch xeyes
 bindsym $mod+y exec xeyes
 
-# launch xbanish
+# Launch xbanish
 bindsym $mod+Shift+B exec xbanish
 
-# launch terminator
+# Launch terminator
 bindsym $mod+Return exec terminator
 bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
 
-# pulseaudio gui
+# Pulseaudio gui
 bindsym $mod+F9 exec pavucontrol
 
-# calculator
+# Calculator
 bindsym $mod+c exec "speedcrunch"
 
 # Hibernate the system
-bindsym $mod+F1 exec "systemctl suspend"
+bindsym $mod+F1 exec sh $HOME/dots/hibernate.sh $lockCmd
+
+# Color picker
+# I put --release because i3 did not pass the ownership of the mouse or smth like that
+# see: https://www.reddit.com/r/i3wm/comments/q8lp46/cant_launch_xcolor_using_exec_from_i3/
+bindsym --release $mod+p exec "sh $HOME/dots/pick_and_copy.sh"
 
 
 # constrain floating size

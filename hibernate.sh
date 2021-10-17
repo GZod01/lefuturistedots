@@ -1,0 +1,2 @@
+$1
+systemctl suspend
