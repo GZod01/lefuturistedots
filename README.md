@@ -138,6 +138,10 @@ Install with `yay`: `yay xmousepasteblock`.
 
 Then create a systemd service or put the `xmousepasteblock` command in startup script.
 
+### Change rofi theme
+
+Use the `rofi-theme-selector` command.
+
 ## Start from scratch
 
 - install a archlinux on the computer
