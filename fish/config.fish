@@ -10,7 +10,11 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 alias c='xclip -selection c'
 alias p='xclip -selection c -o'
 
-alias list='ls -A -l --color=never'
+alias lsa='ls --color=never'
+alias ll='ls -A -l --color=never'
 alias fde='firefox-developer-edition'
+
+# Kitty alias
+alias icat="kitty +kitten icat --align=left"
 
 export GTK_THEME="Adwaita:dark"
