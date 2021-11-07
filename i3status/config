@@ -9,6 +9,7 @@
 ###############################################################################
 
 general {
+    output_format = "i3bar"
     markup = "pango"
     interval = 1
     colors = true
@@ -19,33 +20,34 @@ general {
 
 order += "volume master"
 order += "disk /"
-order += "disk /mnt/data"
+#order += "disk /mnt/data"
 order += "disk /home"
 #order += "run_watch DHCP"
 #order += "ipv6"
 #order += "run_watch VPN"
 order += "wireless wlp2s0"
-order += "ethernet enp5s0"
+order += "ethernet enp3s0f1"
 order += "battery 1"
+order += "memory"
 order += "cpu_temperature 0"
 #order += "cpu_usage 0"
 #order += "load"
-order += "tztime local"
+#order += "tztime local"
 
 wireless wlp2s0 {
     format_up = "%quality  %essid %ip"
     format_down = ""
 }
 
-ethernet enp5s0 {
+ethernet enp3s0f1 {
     #if you use %speed, i3status requires root privileges
-    format_up = "%ip (%speed)"
+    format_up = "E: %ip"
     format_down = ""
 }
 
 battery 1 {
     path = "/sys/class/power_supply/BAT1/uevent"
-    format = "<span background='#6a89cc'>%status %percentage</span>"
+    format = "<span foreground='#6a89cc'>%status%percentage</span>"
     format_down = "No battery"
     last_full_capacity = true
     integer_battery_capacity = true
@@ -67,7 +69,14 @@ run_watch VPN {
 }
 
 tztime local {
-    format = " %e/%m/%Y   %H:%M"
+    format = " %e/%m/%Y  %H:%M:%S"
+    timezone = "Europe/Paris"
+}
+
+memory {
+        format = "RAM %used"
+        threshold_degraded = "200M"
+        format_degraded = "Memory < %available"
 }
 
 load {
@@ -79,32 +88,32 @@ cpu_usage {
 }
 
 cpu_temperature 0 {
-	format = " %degrees°C"
+	format = "<span foreground='#EA2027'> Barbecue:</span> %degrees°C"
 }
 
 disk "/" {
-	format = " %avail"
+	format = "<span foreground='#FFC312'> %avail</span>"
 	prefix_type	= custom
 	low_threshold = 20
 	threshold_type = percentage_avail
 }
 
 disk "/mnt/data" {
-        format = " %avail"
+        format = "<span foreground='#FFC312'>  %avail</span>"
         prefix_type     = custom
         low_threshold = 20
         threshold_type = percentage_avail
 }
 
 disk "/home" {
-        format = " %avail"
-        prefix_type     = custom
+        format = "<span foreground='#C4E538'> Leaked data: %avail</span>"
+        prefix_type = custom
         low_threshold = 20
         threshold_type = percentage_avail
 }
 
 volume master {
-    format = "%volume  "
+    format = "<span foreground='#9980FA'> %volume</span>"
     format_muted = " "
     device = "default"
     mixer = "Master"
