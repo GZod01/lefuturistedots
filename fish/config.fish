@@ -14,6 +14,10 @@ alias lsa='ls --color=never'
 alias ll='ls -A -l --color=never'
 alias fde='firefox-developer-edition'
 
+# strings utils
+alias upper="tr a-z A-Z"
+alias lower="tr A-Z a-z"
+
 # Kitty alias
 alias icat="kitty +kitten icat --align=left"
 
