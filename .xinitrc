@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Setup display
 xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1
 
 # to only use the HDM1 output use the command:
@@ -14,13 +15,28 @@ xflux -l 54.784568 -g 37.106110 &
 # Start notification deamon
 dunst &
 
-# old: start laptop monitor (now replaced with batterytator)
-#env LAPTOP_MONITOR_PERIOD_IN_MINUTES=2 /home/mbess/dots/laptop_monitor & > /home/mbess/dots/monitor.log
+# Start network manager applet
+# nm-applet
+
+# Start xbanish to hide mouse cursor when typing
+xbanish &
+
+# Prevent paste mouseblock
+# I had to install it without using pacman
+/mnt/extra/data/_content/apps/XMousePasteBlock/xmousepasteblock &
 
 # Start batterytator
 /usr/bin/batterytator mbess BAT1 &
 
+# Start joplin
+/opt/appimages/Joplin.AppImage --no-sandbox %U &
+
+# old: start laptop monitor (now replaced with batterytator)
+#env LAPTOP_MONITOR_PERIOD_IN_MINUTES=2 /home/mbess/dots/laptop_monitor & > /home/mbess/dots/monitor.log
+
+# setup keychain
+eval $(gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
+
 i3
-
-
 

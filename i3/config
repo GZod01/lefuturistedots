@@ -197,23 +197,28 @@ bar {
 set $lockCmd "i3lock -i $HOME/dots/lock/lock_background.png"
 
 # Autostart apps
+# 2022-06 : EDIT now I'm doing autostart in .xinitrc
 #exec --no-startup-id /usr/bin/xfce4-clipman
 #exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # Autostart xbanish to hide cursor when typing
-exec --no-startup-id "xbanish &"
+#exec --no-startup-id "xbanish &"
 
 # on mouse middle click, will paste the content of the clipboard
-exec --no-startup-id "xmousepasteblock &"
+#
+# exec --no-startup-id "xmousepasteblock &"
 
 # Refresh wallpapers
 exec --no-startup-id "~/dots/scripts/refresh_wallpapers.sh"
 
 # Autostart autolock
-exec xautolock -detectsleep -time 5 -locker $lockCmd \
-  -notify 30 \
-  -notifier "notify-send -u critical -t 10000 -- 'locking screen in 30 seconds'"
+# 2022-06 : Disabled because it's pretty much useless 
+# When I'm in private space, it's not worth it to lock
+# And when I'm in public space, since I'm on a laptop I hibernate it when I leave it so it's not a big deal
+#exec xautolock -detectsleep -time 5 -locker $lockCmd \
+#  -notify 30 \
+#  -notifier "notify-send -u critical -t 10000 -- 'locking screen in 30 seconds'"
 
 # lock
 #bindsym $mod+Shift+x exec $lockCmd
@@ -263,7 +268,8 @@ bindsym $mod+F10 exec "xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 -
 # sharenix
 #bindsym $mod+Print exec sharenix-section
 #bindsym $mod+Print exec xfce4-screenshooter -c -r
-bindsym $mod+Print exec escrotum --clipboard --select && notify-send 'Image copied in the clipboard' --app-name='Screenshot'
+#bindsym $mod+Print exec escrotum --clipboard --select && notify-send 'Image copied in the clipboard' --app-name='Screenshot'
+bindsym $mod+Print exec "sh ~/dots/scripts/screenshot.sh"
 
 # relays
 set $home_token fc466dae66c29ca7ca7b32eed514aed56444f5f3cb40a
@@ -278,6 +284,7 @@ bindsym $mod+s exec "rofi -show window"
 
 # Show list of desktop entries
 bindsym $mod+d exec "env GTK_THEME=Adwaita:dark rofi -show drun"
+#bindsym $mod+d exec "env GTK_THEME=Adwaita rofi -show drun"
 
 # Show command palette
 bindsym $mod+Shift+p exec "python ~/dots/command_palette.py"
@@ -312,8 +319,12 @@ bindsym $mod+Z exec boomer
 # Emoji Picker
 bindsym $mod+semicolon exec emoji-picker
 
+# Start xmouseless
+bindsym $mod+m exec sh $HOME/dots/xmouseless/xmouseless.middleware.sh
+
 # Calculator
-bindsym $mod+c exec "speedcrunch"
+# I used to do it with speedcrunch but I'm testing new ways of doing it
+bindsym $mod+c exec sh $HOME/dots/scripts/calc.sh
 
 # Lock then Hibernate the system
 bindsym $mod+F1 exec sh $HOME/dots/scripts/hibernate.sh $lockCmd
