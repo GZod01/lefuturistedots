@@ -90,19 +90,54 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
+# general purpose 1
 bindsym $mod+1 workspace 1
+
+# gp 2
 bindsym $mod+2 workspace 2
+# gp 3
 bindsym $mod+3 workspace 3
+
+# dedicated to terminal
 bindsym $mod+4 workspace 4
+
+# gp 4
 bindsym $mod+5 workspace 5
+
+# gp 5
 bindsym $mod+6 workspace 6
+
+# dedicated to frontend, light workhorse
 bindsym $mod+7 workspace 7
+
+# dedicated to backend, heavy workhorse
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
+
+# gp
 bindsym $mod+0 workspace 10
+# gp
 bindsym $mod+degree workspace 11
+# gp
 bindsym $mod+equal workspace 12
-bindsym $mod+twosuperior workspace 13
+
+# special buffer workspace
+bindsym $mod+exclam workspace s1
+
+# dedicated to note taking app like joplin
+bindsym $mod+twosuperior workspace note
+
+# dedicated to music player like clementine
+bindsym $mod+colon workspace media1
+
+# dedicated to video player (youtube alternative frontend)
+bindsym $mod+semicolon workspace media2
+
+# dedicated whatsapp, signal, telegram, elements/matrix?
+bindsym $mod+comma workspace com1 
+
+# dedicated slack, discord
+bindsym $mod+n workspace com2 
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -117,7 +152,15 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 bindsym $mod+Shift+degree move container to workspace 11
 bindsym $mod+Shift+equal move container to workspace 12
-bindsym $mod+Shift+twosuperior move container to workspace 13
+
+bindsym $mod+Shift+twosuperior move container to workspace note
+
+bindsym $mod+Shift+colon move container to workspace media1
+bindsym $mod+Shift+semicolon move container to workspace media2
+bindsym $mod+Shift+comma move container to workspace com1 
+bindsym $mod+Shift+n move container to workspace com2 
+
+bindsym $mod+Shift+exclam move container to workspace s1
 
 workspace_auto_back_and_forth yes
 
@@ -302,8 +345,11 @@ bindsym $mod+y exec xeyes
 # Launch xbanish
 bindsym $mod+Shift+B exec xbanish
 
-# Launch terminator terminal
-bindsym $mod+Return exec terminator
+# Launch kitty terminal
+bindsym $mod+Return exec kitty
+
+# Launch terminator in case of issue with kitty
+bindsym $mod+Control+Return exec terminator
 
 # Launch urxvt
 #bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
@@ -316,11 +362,11 @@ bindsym $mod+F9 exec pavucontrol
 # https://github.com/tsoding/boomer
 bindsym $mod+Z exec boomer
 
-# Emoji Picker
-bindsym $mod+semicolon exec emoji-picker
+# Emoji Picker (useless, use command palette instead)
+# bindsym $mod+semicolon exec emoji-picker
 
 # Start xmouseless
-bindsym $mod+m exec sh $HOME/dots/xmouseless/xmouseless.middleware.sh
+bindsym $mod+m exec sh $HOME/dots/scripts/xmouseless.middleware.sh
 
 # Calculator
 # I used to do it with speedcrunch but I'm testing new ways of doing it
@@ -337,6 +383,9 @@ bindsym $mod+Shift+F1 exec systemctl suspend
 # see: https://www.reddit.com/r/i3wm/comments/q8lp46/cant_launch_xcolor_using_exec_from_i3/
 bindsym --release $mod+p exec "$HOME/dots/scripts/pick_color.py"
 
+
+bindsym $mod+Shift+F2 exec "mpv /mnt/extra/data/_content/audio/schlapp.mp3"
+bindsym $mod+Shift+F3 exec "mpv /mnt/extra/data/_content/audio/soundbox/cestnon.ogg"
 
 # constrain floating size
 #floating_minimum_size  x <height>

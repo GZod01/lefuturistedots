@@ -46,6 +46,18 @@ commands = [
   {
     'name': "Emoji picker (Mod+;)",
     'command': "emoji-picker"
+  },
+  {
+    'name': "Send current date to clipboard",
+    'command': "~/dots/scripts/date_to_clipboard.sh"
+  },
+  {
+    'name': "Send current datetime to clipboard",
+    'command': "~/dots/scripts/datetime_to_clipboard.sh"
+  },
+  {
+    'name': "Send random string to clipboard",
+    'command': "~/dots/scripts/random_str_to_clipboard.sh"
   }
 ]
 

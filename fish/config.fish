@@ -8,12 +8,16 @@ set PATH /mnt/data/_content/apps/youtube-dl-music $PATH
 export DENO_INSTALL="/home/mbess/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-# Add texlive package manager
-alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
-
 # Clipboard management
 alias c='xclip -selection c'
 alias p='xclip -selection c -o'
+
+# Add random utils
+alias randstr='head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20'
+
+# Add texlive package manager
+alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
+
 
 alias lq='ls --color=never'
 alias ll='ls -A -l --color=never'
@@ -51,6 +55,9 @@ alias nano="echo 'YOU ARE USING NANO?'"
 # But still provide a way to access it
 alias onano="/usr/bin/nano"
 
+alias vim="nvim"
+alias ovim="/usr/bin/vim"
+
 # cht.sh alias
 alias cheat="cht.sh"
 
@@ -58,6 +65,8 @@ alias cheat="cht.sh"
 # https://github.com/Dagefoerde/dotfiles/blob/fc5452bb9931f20d5702b2d5a25904da71a0c9ef/fish/own_functions/cheat.fish#L7
 complete -c cheat -xa '(curl -s cheat.sh/:list)'
 
+# add alias for kitty
+alias s="kitty +kitten ssh"
 
 function fish_prompt
     printf '%s%s%s@laptop %s%s%s> ' (set_color $fish_color_user) $USER (set_color normal) \
