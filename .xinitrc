@@ -21,9 +21,15 @@ dunst &
 # Start xbanish to hide mouse cursor when typing
 xbanish &
 
+# Start kdeconnect! dangerous
+/usr/lib/kdeconnectd
+
 # Prevent paste mouseblock
 # I had to install it without using pacman
 /mnt/extra/data/_content/apps/XMousePasteBlock/xmousepasteblock &
+
+# Start greenclip
+greenclip daemon &
 
 # Start batterytator
 /usr/bin/batterytator mbess BAT1 &

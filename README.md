@@ -11,6 +11,7 @@
 - SSD: 128 GB
 - HDD: 1 TB
 - Archlinux
+- Graphics Server: X
 - Desktop environment: i3wm
     - i3status
 - Shell: fish
@@ -144,9 +145,12 @@ Use the `rofi-theme-selector` command.
 
 ## Start from scratch
 
-- install a archlinux on the computer
+Procedure to install a new workstation with this config (or in case of a fire):
+
+- install archlinux on the computer
 - make sure basic archlinux commands works
-- install git via pacman: `pacman -S git`
+- install git via pacman: `pacman -S git yay`
 - clone dot repository
-- install all the package
+- install all the others packages using yay (will take a long long time)
 - run auto config scripts
+

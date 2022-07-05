@@ -40,12 +40,13 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+ntilde focus right
+# bindsym $mod+h focus left
+# bindsym $mod+j focus right
+# bindsym $mod+k focus up
+# bindsym $mod+l focus down
+#bindsym $mod+ntilde focus right
 
-# alternatively, you can use the cursor keys:
+# alternatively, use the cursor keys
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -83,8 +84,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+# I don't use parent container things so I just comment that
 # focus the parent container
-bindsym $mod+a focus parent
+#bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -339,11 +341,21 @@ bindsym $mod+Shift+p exec "python ~/dots/command_palette.py"
 #bindsym $mod+e exec "/usr/bin/thunar"
 bindsym $mod+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
 
+# "Idea" -> launch joplin
+# launch quick idea
+#bindsym $mod+j exec "reserved for later use"
+
+# launch joplin
+bindsym $mod+Mod1+j exec kitty joplin
+
 # Launch xeyes
-bindsym $mod+y exec xeyes
+bindsym $mod+Mod1+y exec xeyes
+
+# Open clipboard history
+bindsym $mod+o exec "sh ~/dots/scripts/clipboard_history.sh"
 
 # Launch xbanish
-bindsym $mod+Shift+B exec xbanish
+# bindsym $mod+Shift+B exec xbanish
 
 # Launch kitty terminal
 bindsym $mod+Return exec kitty
@@ -352,15 +364,15 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Control+Return exec terminator
 
 # Launch urxvt
-#bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
-bindsym $mod+Shift+Return exec urxvt
+bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
+#bindsym $mod+Shift+Return exec urxvt
 
 # Pulseaudio gui
 bindsym $mod+F9 exec pavucontrol
 
 # Boomer zoom
 # https://github.com/tsoding/boomer
-bindsym $mod+Z exec boomer
+bindsym $mod+z exec boomer
 
 # Emoji Picker (useless, use command palette instead)
 # bindsym $mod+semicolon exec emoji-picker

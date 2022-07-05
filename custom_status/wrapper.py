@@ -56,11 +56,16 @@ if __name__ == '__main__':
 
     while True:
         line, prefix = read_line(), ''
+
+
         # ignore comma at start of lines
         if line.startswith(','):
             line, prefix = line[1:], ','
 
         j = json.loads(line)
+        # f = open('/tmp/status_json', 'w')
+        # f.write(line + "")
+        # f.close()
         # insert information into the start of the json, but could be anywhere
         # CHANGE THIS LINE TO INSERT SOMETHING ELSE
         now = datetime.datetime.now()

@@ -1,3 +1,6 @@
+# install zoxide
+zoxide init fish | source
+
 set PATH ~/.npm-global/bin $PATH
 set PATH ~/.gem/ruby/2.7.0/bin $PATH
 set PATH ~/go/bin $PATH
@@ -35,6 +38,9 @@ alias icat="kitty +kitten icat --align=left"
 alias passgen="echo 'its pwgen' && pwgen -n -c -s 15 1"
 
 export GTK_THEME="Adwaita:dark"
+
+# alias to easily copy the first column of the first column
+alias firstcell="sh ~/dots/scripts/first_cell.sh"
 
 alias cdc="cd /mnt/data/_content"
 alias cdw="cd /mnt/data/workspace"
@@ -78,4 +84,11 @@ end
 if test -n "$DESKTOP_SESSION"
     set -x (gnome-keyring-daemon --start | string split "=")
 end
+
+# Start X at login after login screen (for now disabled)
+#if status is-interactive
+#    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+#        exec startx -- -keeptty
+#    end
+#end
 

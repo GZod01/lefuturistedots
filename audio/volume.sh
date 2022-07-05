@@ -7,9 +7,13 @@ function usage() {
 }
 
 function setvol() {
-	pactl set-sink-volume 0 $1 > /dev/null 2>&1
-	pactl set-sink-volume 1 $1 > /dev/null 2>&1
-	# TODO: add a loop to set volume for all connected devices not just for the first 2
+    # old simple version
+	#pactl set-sink-volume 0 $1 > /dev/null 2>&1
+	#pactl set-sink-volume 1 $1 > /dev/null 2>&1
+
+    # new more complex version
+    # for each sink id, apply the command to set the sink volume
+    pactl list short sinks | awk '{print $1}' | xargs -I SINK_ID pactl set-sink-volume SINK_ID $1
 }
 
 function main() {

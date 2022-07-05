@@ -58,6 +58,10 @@ commands = [
   {
     'name': "Send random string to clipboard",
     'command': "~/dots/scripts/random_str_to_clipboard.sh"
+  },
+  {
+    'name': "Open clipboard history (Mod+o)",
+    'command': "~/dots/scripts/clipboard_history.sh"
   }
 ]
 
