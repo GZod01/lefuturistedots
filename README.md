@@ -143,6 +143,13 @@ Then create a systemd service or put the `xmousepasteblock` command in startup s
 
 Use the `rofi-theme-selector` command.
 
+### Automatically resize wallpaper
+
+https://www.reddit.com/r/linux/comments/6odeur/i3_automatically_resize_wallpaperconky_on
+
+Install xeventbind from aur/xeventbind-git
+
+
 ## Start from scratch
 
 Procedure to install a new workstation with this config (or in case of a fire):

@@ -22,7 +22,7 @@ dunst &
 xbanish &
 
 # Start kdeconnect! dangerous
-/usr/lib/kdeconnectd
+/usr/lib/kdeconnectd &
 
 # Prevent paste mouseblock
 # I had to install it without using pacman

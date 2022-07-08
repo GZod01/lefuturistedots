@@ -8,6 +8,10 @@ commands = [
     'command': "~/dots/scripts/spectrum_analyser.sh"
   },
   {
+    'name': "Screen setup",
+    'command': "~/dots/scripts/screen_setup_prompt.py"
+  },
+  {
     'name': "Switch to HDMI1",
     'command': "~/dots/scripts/i3_migrate_output.py HDMI1"
   },

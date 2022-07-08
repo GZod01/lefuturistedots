@@ -40,10 +40,10 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-# bindsym $mod+h focus left
-# bindsym $mod+j focus right
-# bindsym $mod+k focus up
-# bindsym $mod+l focus down
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 #bindsym $mod+ntilde focus right
 
 # alternatively, use the cursor keys
@@ -53,10 +53,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+ntilde move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -65,7 +65,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+w split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -75,7 +75,7 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+Shift+s layout stacking
-bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+t layout tabbed
 bindsym $mod+Shift+e layout toggle split
 
 # toggle tiling / floating
@@ -86,10 +86,10 @@ bindsym $mod+space focus mode_toggle
 
 # I don't use parent container things so I just comment that
 # focus the parent container
-#bindsym $mod+a focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+z focus child
 
 # switch to workspace
 # general purpose 1
@@ -179,7 +179,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+y exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Ctrl+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -266,8 +266,8 @@ exec --no-startup-id "~/dots/scripts/refresh_wallpapers.sh"
 #  -notifier "notify-send -u critical -t 10000 -- 'locking screen in 30 seconds'"
 
 # lock
-#bindsym $mod+Shift+x exec $lockCmd
-bindsym $mod+x exec $lockCmd
+bindsym $mod+Shift+x exec $lockCmd
+#bindsym $mod+x exec $lockCmd
 
 # laptop brightness
 bindsym XF86MonBrightnessUp exec "sudo light -A 5"
@@ -304,11 +304,13 @@ bindsym $mod+F8 exec playerctl --ignore-player=chromium next
 # Redirect sound to headphone
 bindsym $mod+F12 exec "node ~/dots/audio/switch_device.js"
 
-# setup single screen
-#bindsym $mod+F11 exec "xrandr --auto"
+# there are two situations that I often use: laptop only OR HDMI only
+# for others config I use the command prompt
+# setup single screen hdmi
+bindsym $mod+F11 exec "sh ~/dots/scripts/screen_setup.sh home_hdmi"
 
-# setup double screen
-bindsym $mod+F10 exec "xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1"
+# setup laptop screen only
+bindsym $mod+F10 exec "sh ~/dots/scripts/screen_setup.sh laptop"
 
 # sharenix
 #bindsym $mod+Print exec sharenix-section
@@ -317,11 +319,11 @@ bindsym $mod+F10 exec "xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 -
 bindsym $mod+Print exec "sh ~/dots/scripts/screenshot.sh"
 
 # relays
-set $home_token fc466dae66c29ca7ca7b32eed514aed56444f5f3cb40a
+# for now disabled but may be one day they will come back :(
 #bindsym $mod+F8 exec curl https://home-api.lefuturiste.fr/group/room/toggle -H 'Authorization:Bearer $home_token'
 #bindsym $mod+F7 exec curl https://home-api.lefuturiste.fr/group/desktop_light/toggle -H 'Authorization:Bearer $home_token'
 #bindsym $mod+F6 exec curl https://home-api.lefuturiste.fr/group/bed_light/toggle -H 'Authorization:Bearer $home_token'
-bindsym $mod+F5 exec curl https://home-api.lefuturiste.fr/group/desktop_speaker/toggle -H 'Authorization:Bearer $home_token'
+#bindsym $mod+F5 exec curl https://home-api.lefuturiste.fr/group/desktop_speaker/toggle -H 'Authorization:Bearer $home_token'
 #bindsym $mod
 
 # Show window list
@@ -334,19 +336,22 @@ bindsym $mod+d exec "env GTK_THEME=Adwaita:dark rofi -show drun"
 # Show command palette
 bindsym $mod+Shift+p exec "python ~/dots/command_palette.py"
 
-# launch firefox
-#bindsym $mod+w exec "/usr/bin/firefox"
-
 # Launch files explorer
 #bindsym $mod+e exec "/usr/bin/thunar"
-bindsym $mod+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
+bindsym $mod+Mod1+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
 
 # "Idea" -> launch joplin
 # launch quick idea
 #bindsym $mod+j exec "reserved for later use"
 
-# launch joplin
+# Launch joplin
 bindsym $mod+Mod1+j exec kitty joplin
+
+# Launch firefox
+bindsym $mod+Mod1+f exec firefox-developer-edition
+
+# Launch discord
+bindsym $mod+Mod1+d exec firefox-developer-edition --new-window https://discord.com/channels/@me 
 
 # Launch xeyes
 bindsym $mod+Mod1+y exec xeyes
@@ -372,7 +377,7 @@ bindsym $mod+F9 exec pavucontrol
 
 # Boomer zoom
 # https://github.com/tsoding/boomer
-bindsym $mod+z exec boomer
+bindsym $mod+Shift+z exec boomer
 
 # Emoji Picker (useless, use command palette instead)
 # bindsym $mod+semicolon exec emoji-picker
@@ -398,6 +403,9 @@ bindsym --release $mod+p exec "$HOME/dots/scripts/pick_color.py"
 
 bindsym $mod+Shift+F2 exec "mpv /mnt/extra/data/_content/audio/schlapp.mp3"
 bindsym $mod+Shift+F3 exec "mpv /mnt/extra/data/_content/audio/soundbox/cestnon.ogg"
+bindsym $mod+Shift+F4 exec "mpv /mnt/extra/data/_content/audio/soundbox/xp_startup.ogg"
+bindsym $mod+Shift+F5 exec "mpv /mnt/extra/data/_content/audio/soundbox/xp_shutdown.ogg"
+bindsym $mod+Shift+F6 exec "mpv /mnt/extra/data/_content/audio/soundbox/nevergonna.opus"
 
 # constrain floating size
 #floating_minimum_size  x <height>

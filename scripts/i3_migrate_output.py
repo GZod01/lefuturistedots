@@ -1,5 +1,14 @@
 #!/usr/bin/python
 # Created by @lefuturiste on 2021-10-25
+
+"""
+This script is useless:
+If you really want to migrate all your workspaces to another screen, you are better off doing something like this:
+    - 1. Disable your source screen and enable only your target screen with xrandr so that will force all the containers to go on the target screen
+    - 2. Re Enable your source screen and voilà!
+TLDR: don't use that script
+"""
+
 import time
 import os
 import i3
@@ -12,7 +21,8 @@ def main():
     exit()
 
   outputs = i3.get_outputs()
-  print(outputs)
+  print('> Current outputs')
+  pprint.pprint(outputs)
 
   def getOutput(name):
     res = list(filter(lambda o: o['name'] == name and o['active'], outputs))
@@ -38,6 +48,7 @@ def main():
   print(f'{target=}')
 
   toMove = list(filter(lambda w: w['output'] == source['name'], workspaces))
+  print('> Workspaces to move')
   pprint.pprint(toMove)
 
   if len(toMove) == 0:
