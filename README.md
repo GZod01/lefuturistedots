@@ -149,6 +149,19 @@ https://www.reddit.com/r/linux/comments/6odeur/i3_automatically_resize_wallpaper
 
 Install xeventbind from aur/xeventbind-git
 
+### X11 Keyboard config
+
+in /etc/X11/xorg.conf.d/00-keyboard.conf
+
+```
+Section "InputClass"
+	Identifier "system-keyboard"
+	MatchIsKeyboard "on"
+	Option "XkbLayout" "us_qwerty-fr"
+	#Option "XkbOptions" "caps:swapescape"
+	Option "XkbOptions" "caps:none"
+EndSection
+```
 
 ## Start from scratch
 
