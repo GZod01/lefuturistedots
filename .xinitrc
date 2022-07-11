@@ -6,6 +6,9 @@ xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1
 # to only use the HDM1 output use the command:
 # xrandr --output HDMI1 --mode 1920x1080 --output
 
+# setup remap
+~/dots/scripts/remap.sh
+
 # old xflux (with french location)
 #xflux -l 49.1754262 -g 1.3301737 &
 

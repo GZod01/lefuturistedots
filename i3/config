@@ -377,7 +377,7 @@ bindsym $mod+F9 exec pavucontrol
 
 # Boomer zoom
 # https://github.com/tsoding/boomer
-bindsym $mod+Shift+z exec boomer
+bindsym $mod+Mod1+z exec boomer
 
 # Emoji Picker (useless, use command palette instead)
 # bindsym $mod+semicolon exec emoji-picker

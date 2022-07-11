@@ -1,3 +1,8 @@
+# for now I'm disabling vi key bindings
+# fish_vi_key_bindings
+fish_default_key_bindings
+
+
 # install zoxide
 zoxide init fish | source
 
