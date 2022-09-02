@@ -1,3 +1,5 @@
+" OLD vim script file, now I use a init.lua file
+
 " Dangerously execute vimrc in a project
 " set exrc
 " set secure
@@ -119,7 +121,8 @@ call plug#begin()
     Plug 'airblade/vim-gitgutter'
 
     " formatting
-    Plug 'sbdchd/neoformat'
+    " Plug 'sbdchd/neoformat'
+    Plug 'vim-autoformat/vim-autoformat'
 
     " LSP
     Plug 'neovim/nvim-lspconfig'
