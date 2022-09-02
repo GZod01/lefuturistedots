@@ -4,6 +4,30 @@ import pydymenu
 
 commands = [
   {
+    'name': "Launch xkill to kill windows",
+    'command': "xkill"
+  },
+  {
+    'name': "Type random string",
+    'command': "~/dots/scripts/type_random_str.sh"
+  },
+  {
+    'name': "Type current datetime",
+    'command': "~/dots/scripts/type_datetime.sh"
+  },
+  {
+    'name': "Sandbox 1",
+    'command': "~/dots/scripts/sandbox1.sh"
+  },
+  {
+    'name': "Capture focused workspace (no bar)",
+    'command': "~/dots/scripts/capture_focused_workspace.sh"
+  },
+  {
+    'name': "Capture focused container",
+    'command': "~/dots/scripts/capture_focused_container.sh"
+  },
+  {
     'name': "Launch spectrum analyser",
     'command': "~/dots/scripts/spectrum_analyser.sh"
   },
@@ -66,6 +90,10 @@ commands = [
   {
     'name': "Open clipboard history (Mod+o)",
     'command': "~/dots/scripts/clipboard_history.sh"
+  },
+  {
+    'name': "Remap keyboard",
+    'command': "~/dots/scripts/remap.sh"
   }
 ]
 
