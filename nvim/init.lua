@@ -807,9 +807,52 @@ ls.add_snippets("all", {
     })
 })
 
+require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.api.nvim_create_user_command('Foobar', function ()
-    vim.api.nvim_put({"What?!?"}, "", true, false)
+function mysplit (inputstr, sep)
+   if sep == nil then
+      sep = "%s"
+   end
+   local t={}
+   for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+      table.insert(t, str)
+   end
+   return t
+end
+
+vim.api.nvim_create_user_command('SnipList', function ()
+    -- Will create a read only buffer and show the description of all the snippets
+    local res = vim.inspect(require'luasnip'.available())
+    
+    if win and vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_set_current_win(win)
+    else
+
+        start_win = vim.api.nvim_get_current_win()
+
+        -- we open a new buffer
+        vim.api.nvim_command('botright vnew') -- We open a new vertical window at the far right
+
+        win = vim.api.nvim_get_current_win() -- We save our navigation window handle...
+        buf = vim.api.nvim_get_current_buf() -- ...and it's buffer handle.
+
+        vim.api.nvim_buf_set_name(buf, "SnipList")
+
+        vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+        vim.api.nvim_buf_set_option(buf, 'swapfile', false)
+        vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+
+        vim.api.nvim_buf_set_option(buf, 'modifiable', true)
+        vim.api.nvim_buf_set_option(buf, 'filetype', 'lua')
+        -- uncomment to disable numbers
+        -- vim.api.nvim_set_option_value('number', false, { scope = "local" })
+        -- vim.api.nvim_set_option_value('relativenumber', false, { scope = "local" })
+
+        -- we set the buffer content
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, mysplit(res, "\n"))
+        vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    end
+
 end, {})
 
 require("luasnip.loaders.from_vscode").lazy_load()
