@@ -77,7 +77,7 @@ commands = [
   },
   {
     'name': "Unicode char picker (Mod+Alt+')",
-    'command': "~/dots/charpicker/global.sh"
+    'command': "~/dots/charpicker/global.py"
   },
   {
     'name': "Send current date to clipboard",

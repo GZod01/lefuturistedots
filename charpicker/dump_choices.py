@@ -19,6 +19,8 @@ for path in d:
     if len(res) > 0:
         choice = res[0]
         msg = ' '.join(choice['files'])
+        if 'additions' in choice:
+            msg += ' + additions'
         if 'keywords' in choice:
             msg += ' :: '  + ','.join(choice['keywords'])
         reached.extend(choice['files'])

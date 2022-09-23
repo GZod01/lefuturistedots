@@ -163,6 +163,22 @@ Section "InputClass"
 EndSection
 ```
 
+### Special keyboard setup
+
+I:
+
+- Use the [qwerty-fr](http://marin.jb.free.fr/qwerty-fr/) keyboard layout
+- Remapped caplocks to escape action: because I use vim a lot, I needed a quick way to access the Escape key (to for example exit insert mode).
+- Remapped escape to backtick action (to access it quickely and make use of the escape key as I don't need the caplock action)
+
+I use the script in `./scripts/remap.sh` to setup the remap.
+
+However the remap is "forgot" everytime I go to suspend mode or change my keyboard I have to resolve it by some kind of hack.
+
+To hook into systemd, I created a script `./scripts/systemd_sleep_hook.sh` that reside in `/lib/systemd/system-sleep/`.
+
+I also forced the script to run after i3lock unlocked.
+
 ## Start from scratch
 
 Procedure to install a new workstation with this config (or in case of a fire):

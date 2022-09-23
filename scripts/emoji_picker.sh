@@ -6,5 +6,5 @@
 # Tip: use Alt+C to send to clipboard
 # 🚀🚀🚀
 
-rofimoji --action type -f $HOME/dots/charlist.csv
+rofimoji --action type
 

@@ -421,7 +421,7 @@ bindsym $mod+Mod1+z exec boomer
 bindsym $mod+Mod1+semicolon exec $HOME/dots/scripts/emoji_picker.sh
 
 # Custom complete charpicker with rofi that load files into rofimoji
-bindsym $mod+Mod1+apostrophe exec $HOME/dots/charpicker/global.sh
+bindsym $mod+Mod1+apostrophe exec $HOME/dots/charpicker/global.py
 
 # Start xmouseless
 bindsym $mod+m exec $HOME/dots/scripts/xmouseless.middleware.sh

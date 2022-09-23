@@ -1,0 +1,47 @@
+> Started i3 overlay 2022-09-21 11:47:05.701880
+analysing floating window event...
+event: floating, workspace: 11, win: "/m/e/h/mbess"
+958 1038 1920 1058
+act on position 481 30
+act on size 958 858
+i3 cmd: move position 481px 30px
+i3 cmd: resize set 958px 858px
+analysing floating window event...
+event: floating, workspace: 11, win: "/m/e/h/mbess"
+958 1038 1920 1058
+act on position 481 30
+act on size 958 858
+i3 cmd: move position 481px 30px
+i3 cmd: resize set 958px 858px
+analysing floating window event...
+event: floating, workspace: 11, win: "/m/e/h/mbess"
+958 1038 1920 1058
+act on position 481 30
+act on size 958 858
+i3 cmd: move position 481px 30px
+i3 cmd: resize set 958px 858px
+> Started i3 overlay 2022-09-21 11:47:31.450220
+analysing floating window event...
+event: floating, workspace: 11, win: "Java OpenStreetMap Editor"
+1910 1030 1920 1058
+act on position 100 30
+act on size 1720 858
+i3 cmd: move position 100px 30px
+i3 cmd: resize set 1720px 858px
+> Started i3 overlay 2022-09-21 11:48:13.580057
+> Started i3 overlay 2022-09-21 11:48:26.510617
+analysing floating window event...
+event: floating, workspace: 11, win: "/m/e/h/mbess"
+958 1038 1920 1058
+act on position 481 30
+act on size 958 858
+i3 cmd: move position 481px 30px
+i3 cmd: resize set 958px 858px
+analysing floating window event...
+event: floating, workspace: 11, win: "/m/e/h/mbess"
+958 1038 1920 1058
+act on position 481 30
+act on size 958 858
+i3 cmd: move position 481px 30px
+i3 cmd: resize set 958px 858px
+> Started i3 overlay 2022-09-21 11:48:42.825700

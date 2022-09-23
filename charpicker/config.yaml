@@ -1,6 +1,8 @@
 choices:
   - files:
       - currency_symbols.csv
+    additions:
+      - currency_symbols.csv
     keywords:
       - money
       - currency
