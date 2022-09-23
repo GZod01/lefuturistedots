@@ -72,8 +72,12 @@ commands = [
     'command': "~/dots/scripts/refresh_wallpapers.sh"
   },
   {
-    'name': "Emoji picker (Mod+;)",
-    'command': "emoji-picker"
+    'name': "Emoji picker (Mod+Alt+;)",
+    'command': "~/dots/scripts/emoji_picker.sh"
+  },
+  {
+    'name': "Unicode char picker (Mod+Alt+')",
+    'command': "~/dots/charpicker/global.sh"
   },
   {
     'name': "Send current date to clipboard",
@@ -86,6 +90,10 @@ commands = [
   {
     'name': "Send random string to clipboard",
     'command': "~/dots/scripts/random_str_to_clipboard.sh"
+  },
+  {
+    'name': "Send fake lorem ipsum string to clipboard",
+    'command': "~/dots/scripts/lorem_to_clipboard.sh"
   },
   {
     'name': "Open clipboard history (Mod+o)",

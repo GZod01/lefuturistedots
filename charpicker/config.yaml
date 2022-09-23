@@ -1,0 +1,14 @@
+choices:
+  - files:
+      - currency_symbols.csv
+    keywords:
+      - money
+      - currency
+      - symbols
+      - monetary
+  - files:
+      - math.csv
+      - mathematical_alphanumeric_symbols.csv
+      - mathematical_operators.csv
+    keywords:
+      - mathematiques

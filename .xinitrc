@@ -7,7 +7,9 @@ xrandr --auto && xrandr --output HDMI1 --mode 1920x1080 --left-of eDP1
 # xrandr --output HDMI1 --mode 1920x1080 --output
 
 # setup remap
-~/dots/scripts/remap.sh
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+
+picom &
 
 # old xflux (with french location)
 #xflux -l 49.1754262 -g 1.3301737 &
@@ -25,7 +27,7 @@ dunst &
 xbanish &
 
 # Start kdeconnect! dangerous
-/usr/lib/kdeconnectd &
+# /usr/lib/kdeconnectd &
 
 # Prevent paste mouseblock
 # I had to install it without using pacman

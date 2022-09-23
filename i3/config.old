@@ -11,20 +11,10 @@ hide_edge_borders both
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-
 workspace_auto_back_and_forth yes
-
-# bindsym $mod+BackSpace resize set 30 ppt 40 ppt 
 
 bindsym $mod+Tab workspace back_and_forth
 bindsym Mod1+Tab workspace next
-bindsym Mod1+Shift+Tab workspace prev
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -46,12 +36,6 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# move focused window (higher speed)
-bindsym $mod+Ctrl+h move left 50px
-bindsym $mod+Ctrl+j move down 50px
-bindsym $mod+Ctrl+k move up 50px
-bindsym $mod+Ctrl+l move right 50px
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -78,9 +62,6 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-
-# sticky floating windows
-bindsym $mod+BackSpace sticky toggle
 
 # I don't use parent container things so I just comment that
 # focus the parent container
@@ -124,8 +105,6 @@ bindsym $mod+plus workspace mail
 
 # special buffer workspace
 bindsym $mod+grave workspace s1
-bindsym $mod+bracketleft workspace s2
-bindsym $mod+bracketright workspace s3
 
 # dedicated to note taking app like joplin
 bindsym $mod+slash workspace note
@@ -137,10 +116,10 @@ bindsym $mod+period workspace media1
 bindsym $mod+comma workspace media2
 
 # dedicated whatsapp, signal, telegram, elements/matrix?
-bindsym $mod+apostrophe workspace com1
+bindsym $mod+apostrophe workspace "com1" 
 
 # dedicated slack, discord
-bindsym $mod+semicolon workspace com2
+bindsym $mod+semicolon workspace "com2"
 
 # dedicated to main browsing window
 bindsym $mod+backslash workspace bro
@@ -162,56 +141,31 @@ bindsym $mod+Shift+backslash move container to workspace bro
 bindsym $mod+Shift+slash move container to workspace note
 bindsym $mod+Shift+period move container to workspace media1
 bindsym $mod+Shift+comma move container to workspace media2
-bindsym $mod+Shift+apostrophe move container to workspace com1
-bindsym $mod+Shift+semicolon move container to workspace com2
+bindsym $mod+Shift+apostrophe move container to workspace "com1" 
+bindsym $mod+Shift+semicolon move container to workspace "com2" 
 bindsym $mod+Shift+grave move container to workspace s1
-bindsym $mod+Shift+bracketleft move container to workspace s2
-bindsym $mod+Shift+bracketright move container to workspace s3
 
-# Start an interactive prompt that accepts i3 command
-bindsym $mod+i exec i3-input
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Ctrl+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-mode "geometry" {
+mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
 
     # Pressing left will shrink the window’s width.
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    #bindsym j resize shrink width 10 px or 10 ppt
-    #bindsym k resize grow height 10 px or 10 ppt
-    #bindsym l resize shrink height 10 px or 10 ppt
-    #bindsym h resize grow width 10 px or 10 ppt
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
-
-    # small size preset
-    bindsym s resize set 700px 400px, mode "default"
-    # medium size preset
-    bindsym m resize set 1000px 600px, mode "default"
-    # big size preset
-    bindsym m resize set 1000px 600px, mode "default"
-
-    # place window top left
-    bindsym z exec xdotool getactivewindow windowmove 13 30, mode "default"
-
-    # place window bottom right
-
-    # place window top middle
-
-    # TODO: Have a hook script that check every time a floating window is open if it's outside (too big for the current screen, overlap status bar etc.)
-    #       If so, it will resize it properly
-
-    bindsym Shift+H resize shrink width 30 px or 30 ppt
-    bindsym Shift+J resize grow height 30 px or 30 ppt
-    bindsym Shift+K resize shrink height 30 px or 30 ppt
-    bindsym Shift+L resize grow width 30 px or 30 ppt
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym h resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
@@ -224,19 +178,7 @@ mode "geometry" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "geometry"
-
-
-# like in vim with <Leader> key we like to define a command mode
-mode "command" {
-    bindsym s exec notify-send "hello", mode "default"
-    bindsym r exec notify-send "hello", mode "default"
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
-bindsym $mod+c mode "command"
+bindsym $mod+r mode "resize"
 
 set $bg-color            #000000
 set $active-bg-color     #285576
@@ -270,6 +212,7 @@ bar {
 	}
 }
 
+set $lockCmd "i3lock -i $HOME/dots/lock/lock_background.png"
 
 # Autostart apps
 # 2022-06 : EDIT now I'm doing autostart in .xinitrc
@@ -296,8 +239,6 @@ exec --no-startup-id "~/dots/scripts/refresh_wallpapers.sh"
 #  -notifier "notify-send -u critical -t 10000 -- 'locking screen in 30 seconds'"
 
 # lock
-set $lockCmd "sh $HOME/dots/scripts/lock.sh"
-
 bindsym $mod+Shift+x exec $lockCmd
 #bindsym $mod+x exec $lockCmd
 
@@ -368,9 +309,6 @@ bindsym $mod+d exec "env GTK_THEME=Adwaita:dark rofi -show drun"
 # Show command palette
 bindsym $mod+Shift+p exec "python ~/dots/command_palette.py"
 
-# force keyboard remap
-bindsym $mod+Ctrl+space exec "sh ~/dots/scripts/remap.sh && notify-send 'remaped keyboard'"
-
 # Launch files explorer
 #bindsym $mod+e exec "/usr/bin/thunar"
 bindsym $mod+Mod1+e exec "env GTK_THEME=Adwaita:dark /usr/bin/nautilus --new-window ~/file_explorer_home"
@@ -408,32 +346,26 @@ bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono
 #bindsym $mod+Shift+Return exec urxvt
 
 # Pulseaudio gui
-bindsym $mod+F9 exec Pavucontrol
-# easier shortcut to access pulseaudio
-bindsym $mod+Mod1+p exec pavucontrol
+bindsym $mod+F9 exec pavucontrol
 
-# Boomer zoom (Mod+Alt+z)
+# Boomer zoom
 # https://github.com/tsoding/boomer
 bindsym $mod+Mod1+z exec boomer
 
-# Emoji Picker (may be use command palette instead) (Mod+Alt+semicolon ;)
-# Use directly the default behavious of rofimoji
-bindsym $mod+Mod1+semicolon exec $HOME/dots/scripts/emoji_picker.sh
-
-# Custom complete charpicker with rofi that load files into rofimoji
-bindsym $mod+Mod1+apostrophe exec $HOME/dots/charpicker/global.sh
+# Emoji Picker (useless, use command palette instead)
+# bindsym $mod+semicolon exec emoji-picker
 
 # Start xmouseless
-bindsym $mod+m exec $HOME/dots/scripts/xmouseless.middleware.sh
+bindsym $mod+m exec sh $HOME/dots/scripts/xmouseless.middleware.sh
 
 # Calculator
 # I used to do it with speedcrunch but I'm testing new ways of doing it
-bindsym $mod+Mod1+c exec $HOME/dots/scripts/calc.sh
+bindsym $mod+c exec sh $HOME/dots/scripts/calc.sh
 
-# Lock then suspend the system
-bindsym $mod+F1 exec $HOME/dots/scripts/lock_and_suspend.sh
+# Lock then Hibernate the system
+bindsym $mod+F1 exec sh $HOME/dots/scripts/hibernate.sh $lockCmd
 
-# Just suspend the system without locking
+# Just Hibernate (or suspend) the system
 bindsym $mod+Shift+F1 exec systemctl suspend
 
 # Color picker
@@ -451,8 +383,8 @@ bindsym $mod+Shift+F6 exec "mpv /mnt/extra/data/_content/audio/soundbox/nevergon
 # assign workspace to specific apps
 assign [class="Thunderbird"] mail
 assign [class="Joplin"] note
-assign [class="Element"] com1
-assign [class="Signal"] com2
+assign [class="Element"] "com1"
+assign [class="Signal"] "com2"
 
 # constrain floating size
 #floating_minimum_size  x <height>
@@ -473,7 +405,4 @@ for_window [class="Open File"] floating_maximum_size 700 x 500
 
 for_window [window_role="pop-up"] floating enable
 
-# start personal overlay (python script with i3ipc to define custom behaviour)
-exec --no-startup-id $HOME/dots/scripts/start_i3_overlay.py
-exec notify-send "restarted"
 
