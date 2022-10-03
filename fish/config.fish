@@ -1,17 +1,19 @@
 # for now I'm disabling vi key bindings
-# fish_vi_key_bindings
-fish_default_key_bindings
+fish_vi_key_bindings
+#fish_default_key_bindings
 
 
 # install zoxide
 zoxide init fish | source
 
+set PATH ~/.bin $PATH
 set PATH ~/.npm-global/bin $PATH
 set PATH ~/.gem/ruby/2.7.0/bin $PATH
 set PATH ~/go/bin $PATH
 set PATH ~/.local/bin $PATH
 set PATH /usr/lib/emscripten $PATH
 set PATH /mnt/data/_content/apps/youtube-dl-music $PATH
+set PATH /usr/bin $PATH
 
 export DENO_INSTALL="/home/mbess/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
@@ -23,9 +25,14 @@ alias o='xdg-open'
 alias sw='devour'
 alias swo='devour xdg-open'
 
+
 # Clipboard management
+# Copy
 alias c='xclip -selection c'
+# Paste
 alias p='xclip -selection c -o'
+# Paste image
+alias pimg='xclip -sel clip -o -t image/png'
 
 # Add random utils
 alias randstr='head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20'
@@ -38,8 +45,12 @@ alias mime='xdg-mime query filetype'
 
 alias lq='ls --color=never'
 alias ll='ls -A -l --color=never'
-alias fde='firefox-developer-edition'
 
+# App alias
+alias fde='firefox-developer-edition'
+alias zt='zathura'
+
+alias ripgrep='echo "May be you want to use rg for ripgrep?"'
 alias volume='echo "May be you want to use pulsemixer?"'
 alias throttle='echo "May be you want to use pv?"'
 alias pipemonit='echo "May be you want to use pv?"'
@@ -58,7 +69,17 @@ alias passgen="echo 'its pwgen' && pwgen -n -c -s 15 1"
 export GTK_THEME="Adwaita:dark"
 
 # alias to easily copy the first column of the first column
-alias firstcell="sh ~/dots/scripts/first_cell.sh"
+alias skipheader="dash ~/dots/scripts/skipheader.sh"
+alias firstcell="dash ~/dots/scripts/firstcell.sh"
+
+# to remove last char
+alias rmlastchar="head -c -1"
+
+# Print the lines around a specific line in a stream
+alias around='dash ~/dots/scripts/around.sh'
+
+# Identify the output of a piped program (stdout or stderr)
+alias idoutput='dash ~/dots/scripts/idoutput.sh'
 
 alias cdc="cd /mnt/data/_content"
 alias cdw="cd /mnt/data/workspace"
@@ -79,13 +100,13 @@ alias wttr="curl wttr.in/Aubevoye"
 #alias st="status"
 #alias ci="commit"
 alias "gitlg"="git log --graph --pretty=format:'%Cred%h %Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias gitpom="git push origin master"
 
 # Warn that we are using nano
 alias nano="echo 'YOU ARE USING NANO?'"
 # But still provide a way to access it
 alias onano="/usr/bin/nano"
 
-alias feh='echo "May be you want to use sxiv?"'
 alias sxiv='nsxiv'
 alias iv='nsxiv'
 alias ofeh='/usr/bin/feh'
@@ -117,6 +138,23 @@ function fish_prompt
         (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end
 
+function fish_user_key_bindings
+    # Copy the entire command to clipboard 
+    # (very useful to not have to use the termninal emulator pager!)
+    bind yy fish_clipboard_copy
+
+    # Classical bindings
+    # So that even if I'm in Normal mode, I'm not lost
+    bind -M insert \ca beginning-of-line
+    bind -M insert \ce end-of-line
+    bind -M insert \ck kill-line
+end
+
+# Show the most frequent programs I use
+function most_frequent_cmd
+    history | awk "{print \$1}" | sort | uniq -c | sort -nr
+end
+
 # Start GNOME Keyring
 # see: https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
 if test -n "$DESKTOP_SESSION"
@@ -129,4 +167,10 @@ end
 #        exec startx -- -keeptty
 #    end
 #end
+
+
+# setup python pyenv
+set -Ux PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
+pyenv init - | source
 
