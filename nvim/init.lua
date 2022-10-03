@@ -1,5 +1,9 @@
 require('impatient')
 
+-- Import vim.api functions into global scope
+-- for k,v in pairs(vim.api) do
+--     _G[k] = v
+-- end
 
 -- TODO:
 -- Debugger feature
@@ -113,6 +117,7 @@ require("packer").startup(function()
     use("nvim-telescope/telescope.nvim")
 
     use {
+        -- neotree
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         requires = { 
@@ -123,6 +128,7 @@ require("packer").startup(function()
         config = function ()
             require('neo-tree').setup({
                 enable_refresh_on_write = true,
+
                 filesystem = {
                     use_libuv_file_watcher = true
                 } 
@@ -1006,11 +1012,38 @@ for i = 1, 9 do
     end)
 end
 
+local function user_input(message)
+	vim.api.nvim_call_function("inputsave", {})
+	local val = vim.api.nvim_call_function("input", { message })
+	vim.api.nvim_call_function("inputrestore", {})
+	return val
+end
+
 -- Now a way to jump to specific tabs via file name match
 map("n", "<A-j>", function ()
     -- Ask user the file startup
-    vim.api.nvim_get
-     
+    user_res = user_input("TabJump: ")
+    
+    pages = vim.api.nvim_list_tabpages()
+    if #pages == 1 then
+        return
+    end
+
+    for tabi, p in ipairs(pages) do
+        win = vim.api.nvim_tabpage_get_win(p)
+        buf = vim.api.nvim_win_get_buf(win)
+        file_path = vim.api.nvim_buf_get_name(buf)
+        res = mysplit(file_path, "/")
+        file_name = res[#res]
+        
+        search_res = string.find(file_name, user_res)
+        if search_res then
+            vim.api.nvim_set_current_tabpage(tabi)
+            vim.api.nvim_echo({}, false, {})
+            return
+        end
+    end
+    vim.api.nvim_notify("TabJump: No match found", 0, {})
 end)
 
 
