@@ -1,12 +1,39 @@
 require('impatient')
 
--- TODO
--- Completion
+
+-- TODO:
 -- Debugger feature
 -- Twig treesitter support
--- Refactor helpers
--- Change name of variable with LSP??
+-- Change name of variable with LSP -> <leader>rn
+-- PHP helpers?
+-- Python helpers?
 -- Tabs features?? Or recent tabs?
+
+-- disable some built
+local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    -- "gzip",
+    -- "zip",
+    -- "zipPlugin",
+    -- "tar",
+    -- "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    -- "spellfile_plugin",
+    "matchit"
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+end
 
 local opt = vim.opt
 
@@ -42,6 +69,7 @@ opt.termguicolors = true
 opt.signcolumn = 'yes'
 opt.belloff = 'all'
 
+-- Keep padding
 opt.scrolloff = 10
 
 -- Always ignore case when searching, unless there is a capital letter in the query
@@ -91,7 +119,21 @@ require("packer").startup(function()
             "nvim-lua/plenary.nvim",
             "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
             "MunifTanjim/nui.nvim",
-        }
+        },
+        config = function ()
+            require('neo-tree').setup({
+                enable_refresh_on_write = true,
+                filesystem = {
+                    use_libuv_file_watcher = true
+                } 
+            })
+        end
+    }
+    use {
+        "simrat39/symbols-outline.nvim",
+        config = function ()
+            require("symbols-outline").setup()
+        end
     }
 
     -- Language Server Protocol stuff
@@ -124,6 +166,7 @@ require("packer").startup(function()
         run = ":TSUpdate"
     })
     use("nvim-treesitter/playground")
+    -- add text objects like class, function
     use {
         "nvim-treesitter/nvim-treesitter-textobjects"
     }
@@ -144,16 +187,16 @@ require("packer").startup(function()
         end
     }
     -- use treesitter to auto add HTML tags
-    use {
-        'windwp/nvim-ts-autotag',
-        config = function ()
-            require('nvim-ts-autotag').setup({
-                autotag = {
-                    enable = true,
-                }
-            })
-        end
-    }
+    -- use {
+    --     'windwp/nvim-ts-autotag',
+    --     config = function ()
+    --         require('nvim-ts-autotag').setup({
+    --             autotag = {
+    --                 enable = false,
+    --             }
+    --         })
+    --     end
+    -- }
     -- use treesitter to swap arguments
     use {
         'mizlan/iswap.nvim',
@@ -212,7 +255,13 @@ require("packer").startup(function()
         "rmagatti/alternate-toggler" 
     }
 
-    use("kamykn/spelunker.vim")
+    -- Lua pad: REPL lua in neovim context
+    -- Useful to mess around with the lua API
+    use { 'rafcamlet/nvim-luapad', requires = "antoinemadec/FixCursorHold.nvim" }
+
+    -- Spell check helper
+    -- 
+    -- use("kamykn/spelunker.vim")
 
     -- File navigation helper
     use {
@@ -282,15 +331,28 @@ require("packer").startup(function()
         end
     }
 
+    use {
+        "tpope/vim-unimpaired"
+    }
+
+    use {
+        "tpope/vim-repeat"
+    }
+
     -- In-buffer navigation
     use {
         "mfussenegger/nvim-treehopper"
     }
     use {
         "phaazon/hop.nvim",
+        branch = 'v2',
         config = function()
-            require("hop").setup()
+            require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
         end
+    }
+    use {
+        "indianboy42/hop-extensions",
+        requires = {'phaazon/hop.nvim'}
     }
 
     -- Align things by comma
@@ -313,12 +375,17 @@ require("packer").startup(function()
     use('editorconfig/editorconfig-vim')
 
     -- Non-LSP Language config
+    -- Language specific config
     -- Use emmet
     use('mattn/emmet-vim')
 
     -- Consider using https://github.com/danymat/neogen to easily create functions annotation (can support php docs)
-    use('lumiliet/vim-twig')
     -- use('lervag/vimtex') -- tex support is already here?
+    --
+    use "folke/lua-dev.nvim"
+
+    -- Trying to have gohtmltemplate Highlighting
+    use "fatih/vim-go"
     
 end)
 
@@ -332,11 +399,6 @@ map("n", "<Leader><Leader>r", "<cmd>source ~/.config/nvim/init.lua<CR>")
 -- short cut to access system clipboard
 map("n", "Y", '"+y')
 map("v", "Y", '"+y')
-
--- little shortcut to insert new line without going into insert mode with Ctrl+Enter
-map("n", "<C-Enter>", function ()
-    vim.api.nvim_put({"",""}, "", true, false)
-end)
 
 -- handy little things
 map("n", "<C-q>", "<Cmd>:q<CR>")
@@ -378,17 +440,46 @@ map("n", "<Leader>nf", function() vim.api.nvim_command('Neoformat') end)
 map("n", "<Leader>tr", function() vim.api.nvim_command('Trouble') end)
 
 -- in buffer navigation
-map("v", "<C-h>", function() require('tsht').nodes() end)
-map("n", "<C-h>", function() require('tsht').move({ side = "start" }) end)
+-- map("v", "<C-h>", function() require('tsht').nodes() end)
+-- map("n", "<C-h>", function() require('tsht').move({ side = "start" }) end)
+
+-- Hop nvim keybindings
+-- Similar function can be triggered with Ctrl+BackSpace
+map("n", "<Leader>H", function()
+    -- hop in all the buffer by word
+    require('hop').hint_words()
+end)
+map("n", "<Leader>hl", function()
+    -- hop to a line
+    require('hop').hint_lines_skip_whitespace()
+end)
+map("n", "<Leader>hv", function()
+    -- keep the position of the cursor column wise
+    require('hop').hint_vertical()
+end)
+map("n", "<Leader>hs", function()
+    require('hop-extensions').hint_textobjects()
+end)
+map("n", "<C-h>", function()
+    require('hop-extensions').hint_textobjects()
+end)
+
+-- Symbols outline
+map("n", "<Leader>so", function ()
+    vim.cmd("SymbolsOutline")
+end)
+-- map("n", "<Leader>sO", function ()
+--     vim.cmd("SymbolsOutlineOpen")
+-- end)
 
 -- Harpoon
-map("n", "<Leader>h", function() require("harpoon.ui").toggle_quick_menu() end)
-map("n", "<Leader>a", function() require("harpoon.mark").add_file() end)
+-- map("n", "<Leader>h", function() require("harpoon.ui").toggle_quick_menu() end)
+-- map("n", "<Leader>a", function() require("harpoon.mark").add_file() end)
 
-map("n", "<A-h>", function () require("harpoon.ui").nav_file(1) end)
-map("n", "<A-j>", function () require("harpoon.ui").nav_file(2) end)
-map("n", "<A-k>", function () require("harpoon.ui").nav_file(3) end)
-map("n", "<A-l>", function () require("harpoon.ui").nav_file(4) end)
+-- map("n", "<A-h>", function () require("harpoon.ui").nav_file(1) end)
+-- map("n", "<A-j>", function () require("harpoon.ui").nav_file(2) end)
+-- map("n", "<A-k>", function () require("harpoon.ui").nav_file(3) end)
+-- map("n", "<A-l>", function () require("harpoon.ui").nav_file(4) end)
 
 -- reserved for style file
 -- map("n", "<A-s>", function () require("harpoon.ui").nav_file(1) end)
@@ -458,8 +549,15 @@ map("n", "<Leader>fs", function ()
 end)
 
 map("n", "<Leader>fw", function ()
+  -- useful to quickly jump to ANY workspace symbols (also include random variables)
   require('telescope.builtin').lsp_dynamic_workspace_symbols()
 end)
+
+map("n", "<Leader>fW", function ()
+  -- useful to quickly jump to major workspace symbols (class, functions, interfaces, etc...)
+  -- require('telescope.builtin').lsp_dynamic_workspace_symbols()
+end)
+
 -- Search for symbols accross project
 -- map("n", "<Leader>fs", function ()
 --   require('telescope.builtin').lsp()
@@ -500,6 +598,8 @@ require'nvim-treesitter.configs'.setup {
              ["if"] = "@function.inner",
              ["ac"] = "@class.outer",
              ["ic"] = "@class.inner",
+             ["aa"] = "@block.outer",
+             ["ii"] = "@block.inner",
            },
            -- You can choose the select mode (default is charwise 'v')
            selection_modes = {
@@ -507,10 +607,7 @@ require'nvim-treesitter.configs'.setup {
              ['@function.outer'] = 'V', -- linewise
              ['@class.outer'] = '<c-v>', -- blockwise
            },
-           -- If you set this to `true` (default is `false`) then any textobject is
-           -- extended to include preceding xor succeeding whitespace. Succeeding
-           -- whitespace has priority in order to act similarly to eg the built-in
-           -- `ap`.
+           -- Useful to include whitespace after a function for example (so the whitespace get deleted or copied and stick with the belonging block)
            include_surrounding_whitespace = true,
         },
     },
@@ -518,16 +615,16 @@ require'nvim-treesitter.configs'.setup {
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldlevelstart = 20
+vim.opt.foldlevelstart = 8
 
 -- LSP Config
 local nvim_lsp = require 'lspconfig'
 -- LSP Servers
 local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'gopls', 'volar' }
+
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
-    capabilities = capabilities,
   }
 end
 
@@ -544,6 +641,14 @@ nvim_lsp.svelte.setup{
         ["svelte.plugin.typescript.diagnostics.enable"] = false,
     }
 }
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+nvim_lsp.cssls.setup{
+    capabilities = capabilities
+}
+
 -- nvim_lsp.sumneko_lua.setup {
 --   settings = {
 --     Lua = {
@@ -598,7 +703,7 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<S-CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = {
         { name = 'nvim_lsp', keyword_length = 4 },
@@ -827,14 +932,11 @@ vim.api.nvim_create_user_command('SnipList', function ()
     if win and vim.api.nvim_win_is_valid(win) then
         vim.api.nvim_set_current_win(win)
     else
+        -- We open a new buffer
+        vim.api.nvim_command('botright vnew')
 
-        start_win = vim.api.nvim_get_current_win()
-
-        -- we open a new buffer
-        vim.api.nvim_command('botright vnew') -- We open a new vertical window at the far right
-
-        win = vim.api.nvim_get_current_win() -- We save our navigation window handle...
-        buf = vim.api.nvim_get_current_buf() -- ...and it's buffer handle.
+        win = vim.api.nvim_get_current_win()
+        buf = vim.api.nvim_get_current_buf()
 
         vim.api.nvim_buf_set_name(buf, "SnipList")
 
@@ -844,11 +946,11 @@ vim.api.nvim_create_user_command('SnipList', function ()
 
         vim.api.nvim_buf_set_option(buf, 'modifiable', true)
         vim.api.nvim_buf_set_option(buf, 'filetype', 'lua')
-        -- uncomment to disable numbers
+        -- Uncomment to disable numbers
         -- vim.api.nvim_set_option_value('number', false, { scope = "local" })
         -- vim.api.nvim_set_option_value('relativenumber', false, { scope = "local" })
 
-        -- we set the buffer content
+        -- We set the buffer content
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, mysplit(res, "\n"))
         vim.api.nvim_buf_set_option(buf, 'modifiable', false)
     end
@@ -858,5 +960,57 @@ end, {})
 require("luasnip.loaders.from_vscode").lazy_load()
 
 vim.cmd("colorscheme gruvbox")
+
+vim.api.nvim_exec(
+[[
+function DetectGoHtmlTmpl()
+    if expand('%:e') == "html" && search("{{") != 0
+        set filetype=gohtmltmpl 
+    endif
+endfunction
+
+augroup filetypedetect
+    au! BufRead,BufNewFile * call DetectGoHtmlTmpl()
+augroup END
+]], true
+)
+
 vim.g.gruvbox_contrast_dark = "hard"
+
+-- little shortcut to insert new line without going into insert mode with Ctrl+Enter
+map("n", "<C-Enter>", function ()
+    vim.api.nvim_put({"",""}, "", true, false)
+end)
+
+-- Tabs/Tabspages navigation with alt
+map("n", "<A-Left>", function ()
+    vim.api.nvim_command("tabp")
+end)
+
+map("n", "<A-Right>", function ()
+    vim.api.nvim_command("tabn")
+end)
+
+map("n", "<A-h>", function ()
+    vim.api.nvim_command("tabp")
+end)
+
+map("n", "<A-j>", function ()
+    vim.api.nvim_command("tabn")
+end)
+
+-- Go to nth tab
+for i = 1, 9 do
+    map("n", "<A-" .. i .. ">", function ()
+        vim.api.nvim_set_current_tabpage(i)
+    end)
+end
+
+-- Now a way to jump to specific tabs via file name match
+map("n", "<A-j>", function ()
+    -- Ask user the file startup
+    vim.api.nvim_get
+     
+end)
+
 

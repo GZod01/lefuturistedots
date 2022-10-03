@@ -10,6 +10,7 @@ from itertools import chain
 
 ROFIMOJI_CHARS_TMP_PATH = '/tmp/rofimoji_chars'
 ROFIMOJI_DATA_PATH = '/usr/lib/python3.10/site-packages/picker/data/'
+CHARPICKER_DIR = '/home/mbess/dots/charpicker'
 
 os.chdir('/home/mbess/dots/charpicker')
 
@@ -20,7 +21,7 @@ config_f = open('./config.yaml')
 config = yaml.safe_load(config_f.read())
 config_f.close()
 
-all_data_paths = os.listdir('/usr/lib/python3.10/site-packages/picker/data')
+all_data_paths = os.listdir(ROFIMOJI_DATA_PATH)
 
 choices_res = ''
 reached = []
@@ -53,11 +54,10 @@ if raw_res.strip() == '':
 
 raw_res: str = raw_res.split(' :: ')[0].split(' + ')
 
-
 def load_with_path(paths):
     ofile = open(ROFIMOJI_CHARS_TMP_PATH, 'a')
     for path in paths:
-        ifile = open(ROFIMOJI_DATA_PATH + path.strip(), 'r')
+        ifile = open(path, 'r')
         ofile.write(ifile.read())
         ifile.close()
 
@@ -66,13 +66,12 @@ def load_with_path(paths):
     subprocess.call(['rofimoji', '-f', ROFIMOJI_CHARS_TMP_PATH])
     os.remove(ROFIMOJI_CHARS_TMP_PATH)
 
-
 if raw_res[0].startswith('@ all'):
     # load all the files
-    load_with_path(all_data_paths + list(
+    load_with_path([ROFIMOJI_DATA_PATH + '/' + p.strip() for p in all_data_paths] + list(
         chain.from_iterable(
             list(
-                map(lambda c: c['additions']
+                map(lambda c: [CHARPICKER_DIR + '/additions/' + p for p in c['additions']]
                     if 'additions' in c else [], config['choices'])))))
     exit()
 
@@ -87,7 +86,8 @@ else:
                config['choices']))
     assert len(res) > 0
     choice = res[0]
+    paths = [ROFIMOJI_DATA_PATH + '/' + p for p in paths]
     if 'additions' in choice:
         for addition_path in choice['additions']:
-            paths.append('./additions/' + addition_path.strip())
+            paths.append(CHARPICKER_DIR + '/additions/' + addition_path.strip())
     load_with_path(paths)
