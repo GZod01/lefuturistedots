@@ -136,11 +136,13 @@ bindsym $mod+period workspace media1
 # dedicated to video player (youtube alternative frontend)
 bindsym $mod+comma workspace media2
 
-# dedicated whatsapp, signal, telegram, elements/matrix?
+# dedicated element/matrix client
 bindsym $mod+apostrophe workspace com1
-
-# dedicated slack, discord
+# dedicated signal
 bindsym $mod+semicolon workspace com2
+# dedicated whatsapp
+# bindsym $mod+semicolon workspace com3
+# dedicated discord, slack, teams
 
 # dedicated to main browsing window
 bindsym $mod+backslash workspace bro
@@ -246,12 +248,17 @@ set $inactive-text-color #676e7d
 set $urgent-bg-color     #e53935
 set $indicator-color     #a0a0a0
 
+set $focused-inactive-bg-color #285576
+set $focused-inactive-text-color #f3f4f5
+set $focused-inactive-border #1d2021 
+
 # set window colors
-#                       border             background         text                 indicator
-client.focused          $inactive-bg-color $active-bg-color   $text-color          $indicator-color
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
-client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $indicator-color
+#                         border                      background                  text                        indicator
+client.focused            $inactive-bg-color          $active-bg-color            $text-color                 $indicator-color
+client.unfocused          $inactive-bg-color          $inactive-bg-color          $inactive-text-color        $indicator-color
+client.focused_inactive   $inactive-bg-color          $inactive-bg-color          $inactive-text-color        $indicator-color
+client.focused_tab_title  $focused-inactive-border    $focused-inactive-bg-color  $focused-inactive-text-color
+client.urgent             $urgent-bg-color            $urgent-bg-color            $text-color                 $indicator-color
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -398,10 +405,11 @@ bindsym $mod+o exec "sh ~/dots/scripts/clipboard_history.sh"
 # bindsym $mod+Shift+B exec xbanish
 
 # Launch kitty terminal
-bindsym $mod+Return exec kitty
+# bindsym $mod+Return exec kitty
+bindsym $mod+Return exec env LIBGL_ALWAYS_SOFTWARE=1 alacritty
 
 # Launch alacritty in case of issue with kitty
-bindsym $mod+Control+Return exec alacritty
+bindsym $mod+Control+Return exec kitty
 
 # Launch urxvt
 bindsym $mod+Shift+Return exec xterm -fg green -bg black -fs 10 -fa "Ubuntu Mono"
