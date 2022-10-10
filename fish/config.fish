@@ -1,3 +1,6 @@
+# Include machine specific custom config files
+source ~/.config/fish/machine.fish
+
 # for now I'm disabling vi key bindings
 fish_vi_key_bindings
 #fish_default_key_bindings
@@ -134,7 +137,7 @@ alias dotfiles="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias mime='xdg-mime query filetype'
 
 function fish_prompt
-    printf '%s%s%s@laptop %s%s%s> ' (set_color $fish_color_user) $USER (set_color normal) \
+    printf '%s%s%s@%s %s%s%s> ' (set_color $fish_color_user) $USER (set_color normal) $HOST \
         (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end
 
