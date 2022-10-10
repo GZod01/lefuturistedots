@@ -142,6 +142,7 @@ function fish_user_key_bindings
     # Copy the entire command to clipboard 
     # (very useful to not have to use the termninal emulator pager!)
     bind yy fish_clipboard_copy
+    bind Y fish_clipboard_copy
 
     # Classical bindings
     # So that even if I'm in Normal mode, I'm not lost

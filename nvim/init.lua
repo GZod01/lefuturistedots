@@ -43,6 +43,7 @@ local opt = vim.opt
 
 vim.cmd("set background=dark")
 
+opt.guifont = "Fira Code"
 opt.background = "dark"
 opt.number = true
 opt.relativenumber = true
@@ -415,6 +416,16 @@ map("n", "<Leader>bb", "<C-^>")
 
 -- No highlights
 map("n", "<Leader>nh", "<Cmd>noh<CR>")
+map("n", "<Leader><Leader>h", "<Cmd>noh<CR>")
+
+-- Open URL in browser (replace netrw-gx)
+map("n", "gx", function()
+    print()
+    vim.fn.jobstart(
+        {"xdg-open", vim.fn.expand("<cfile>")},
+        { on_stdout = print_stdout, detach = true }
+    )
+end)
 
 -- Insert date + time
 map("n", "<Leader>dt", function()
@@ -606,6 +617,8 @@ require'nvim-treesitter.configs'.setup {
              ["ic"] = "@class.inner",
              ["aa"] = "@block.outer",
              ["ii"] = "@block.inner",
+             ["i,"] = '@parameter.inner',
+			 ["a,"] = '@parameter.outer',
            },
            -- You can choose the select mode (default is charwise 'v')
            selection_modes = {
@@ -771,6 +784,7 @@ cmp.setup({
 })
 
 -- Language server keybindings
+-- LSP keybindings
 map("n", "gd", function ()
   vim.lsp.buf.definition()
 end)
@@ -803,12 +817,22 @@ map("n", "<c-k>", function ()
   vim.lsp.buf.signature_help()
 end)
 
-map("n", "<Leader>af", function ()
+map("n", "<Leader>ac", function ()
   vim.lsp.buf.code_action()
 end)
 
 map("n", "<Leader>rn", function ()
   vim.lsp.buf.rename()
+end)
+
+map("n", "<Leader>di", function ()
+    -- show_line_diagnostics
+    vim.diagnostic.open_float()
+end)
+
+map("n", "<Leader>F", function ()
+    -- Format whole buffer with LSP
+    vim.lsp.buf.format { async = true }
 end)
 
 
@@ -969,7 +993,7 @@ vim.cmd("colorscheme gruvbox")
 
 vim.api.nvim_exec(
 [[
-function DetectGoHtmlTmpl()
+function! DetectGoHtmlTmpl()
     if expand('%:e') == "html" && search("{{") != 0
         set filetype=gohtmltmpl 
     endif
@@ -1001,7 +1025,7 @@ map("n", "<A-h>", function ()
     vim.api.nvim_command("tabp")
 end)
 
-map("n", "<A-j>", function ()
+map("n", "<A-l>", function ()
     vim.api.nvim_command("tabn")
 end)
 
