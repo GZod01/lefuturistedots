@@ -406,6 +406,10 @@ require("packer").startup(function()
 
     -- Trying to have gohtmltemplate Highlighting
     use "fatih/vim-go"
+
+    if packer_bootstrap then
+        require('packer').sync()
+    end
     
 end)
 
