@@ -2,6 +2,8 @@ window:
   title: wow
 debug:
   render_time: true
+font:
+  size: 9
 key_bindings:
   - { key: Return,   mods: Control|Shift, action: CreateNewWindow }
   - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
