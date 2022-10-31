@@ -72,6 +72,9 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+Shift+s layout stacking
 bindsym $mod+Shift+t layout tabbed
 bindsym $mod+Shift+e layout toggle split
+# bindsym $mod+Shift+d layout default
+bindsym $mod+Shift+w layout splith
+bindsym $mod+Shift+v layout splitv
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -232,7 +235,9 @@ bindsym $mod+r mode "geometry"
 # like in vim with <Leader> key we like to define a command mode
 mode "command" {
     bindsym s exec notify-send "hello", mode "default"
-    bindsym r exec notify-send "hello", mode "default"
+
+    # rename
+    bindsym r exec sh $HOME/dots/scripts/i3_rename.sh, mode "default"
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -309,10 +314,10 @@ bindsym $mod+Shift+x exec $lockCmd
 #bindsym $mod+x exec $lockCmd
 
 # laptop brightness
-bindsym XF86MonBrightnessUp exec "sudo light -A 5"
-bindsym XF86MonBrightnessDown exec "sudo light -U 5"
-bindsym $mod+Next exec "sudo light -U 5"
-bindsym $mod+Prior exec "sudo light -A 5"
+bindsym XF86MonBrightnessUp exec "light -A 5"
+bindsym XF86MonBrightnessDown exec "light -U 5"
+bindsym $mod+Next exec "light -U 5"
+bindsym $mod+Prior exec "light -A 5"
 
 # volume
 # changelog: now using shell script instead of node.js, much more efficiant
@@ -394,6 +399,10 @@ bindsym $mod+Mod1+f exec firefox-developer-edition
 
 # Launch discord
 bindsym $mod+Mod1+d exec firefox-developer-edition --new-window https://discord.com/channels/@me 
+# bindsym $mod+Mod1+d exec /usr/bin/discord
+
+# Launch microsoft teams
+bindsym $mod+Mod1+t exec /usr/bin/teams
 
 # Launch xeyes
 bindsym $mod+Mod1+y exec xeyes
@@ -406,6 +415,7 @@ bindsym $mod+o exec "sh ~/dots/scripts/clipboard_history.sh"
 
 # Launch kitty terminal
 # bindsym $mod+Return exec kitty
+# bindsym $mod+Return exec env LIBGL_ALWAYS_SOFTWARE=1 alacritty
 bindsym $mod+Return exec env LIBGL_ALWAYS_SOFTWARE=1 alacritty
 
 # Launch alacritty in case of issue with kitty
