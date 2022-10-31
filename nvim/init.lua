@@ -11,7 +11,7 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-require('impatient')
+-- require('impatient')
 
 -- Import vim.api functions into global scope
 -- for k,v in pairs(vim.api) do
@@ -61,6 +61,9 @@ opt.background = "dark"
 opt.number = true
 opt.relativenumber = true
 opt.hidden = true
+
+-- Hide default menu mode status (I have lualine so this is duplicated)
+opt.showmode = false
 
 -- Tabs options
 opt.autoindent = true
@@ -182,9 +185,11 @@ require("packer").startup(function()
 
 
     -- Tree sitter stuff
-    use("nvim-treesitter/nvim-treesitter", {
+    use {
+        "nvim-treesitter/nvim-treesitter",
+        commit = "26105050aae3a15dd85feaeb0439e253e31d5ceb", -- end of september
         run = ":TSUpdate"
-    })
+    }
     use("nvim-treesitter/playground")
     -- add text objects like class, function
     use {
@@ -234,6 +239,7 @@ require("packer").startup(function()
     -- use("tpope/vim-fugitive")
     use {
         'TimUntersberger/neogit',
+        commit = "74c9e29b61780345d3ad9d7a4a4437607caead4a",
         requires = 'nvim-lua/plenary.nvim',
         config = function ()
             require('neogit').setup{
@@ -407,6 +413,63 @@ require("packer").startup(function()
     -- Trying to have gohtmltemplate Highlighting
     use "fatih/vim-go"
 
+    -- use { 'dccsillag/magma-nvim', run = ':UpdateRemotePlugins' }
+
+    use { 'mfussenegger/nvim-dap' }
+
+    use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = function ()
+            require('lualine').setup {
+                options = {
+                    icons_enabled = true,
+                    theme = 'auto',
+                    component_separators = { left = '', right = ''},
+                    section_separators = { left = '', right = ''},
+                    disabled_filetypes = {
+                        statusline = {},
+                        winbar = {},
+                    },
+                    ignore_focus = {},
+                    always_divide_middle = true,
+                    globalstatus = false,
+                    refresh = {
+                        statusline = 1000,
+                        tabline = 1000,
+                        winbar = 1000,
+                    }
+                },
+                sections = {
+                    lualine_a = {'mode'},
+                    lualine_b = {'branch', 'diff', 'diagnostics'},
+                    lualine_c = {{'filename', path = 1}},
+                    -- lualine_x = {'filetype'},
+                    lualine_y = {'progress'},
+                    lualine_z = {'location'}
+                },
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = {'filename'},
+                    lualine_x = {'location'},
+                    lualine_y = {},
+                    lualine_z = {}
+                },
+                tabline = {},
+                winbar = {},
+                inactive_winbar = {},
+                extensions = {}
+            }
+        end 
+    }
+
+
+    -- new plugins
+    -- append new plugins here
+    
     if packer_bootstrap then
         require('packer').sync()
     end
@@ -814,6 +877,10 @@ map("n", "gi", function ()
   vim.lsp.buf.implementation()
 end)
 
+map("n", "<Leader>lc", function ()
+  vim.lsp.buf.incoming_calls()
+end)
+
 map("n", "gw", function ()
   vim.lsp.buf.document_symbol()
 end)
@@ -1047,11 +1114,21 @@ map("n", "<A-l>", function ()
 end)
 
 -- Go to nth tab
+local function jump_to_nth_tab(tab_position)
+    local tabpages = vim.api.nvim_list_tabpages()
+    if tab_position > #tabpages then
+        return
+    end
+    vim.api.nvim_set_current_tabpage(tabpages[tab_position])
+end
 for i = 1, 9 do
     map("n", "<A-" .. i .. ">", function ()
-        vim.api.nvim_set_current_tabpage(i)
+        jump_to_nth_tab(i)
     end)
 end
+map("n", "<A-0>", function () jump_to_nth_tab(10) end)
+map("n", "<A-->", function () jump_to_nth_tab(11) end)
+map("n", "<A-=>", function () jump_to_nth_tab(12) end)
 
 local function user_input(message)
 	vim.api.nvim_call_function("inputsave", {})
@@ -1070,8 +1147,8 @@ map("n", "<A-j>", function ()
         return
     end
 
-    for tabi, p in ipairs(pages) do
-        win = vim.api.nvim_tabpage_get_win(p)
+    for tab_pos in ipairs(pages) do
+        win = vim.api.nvim_tabpage_get_win(tab_pos)
         buf = vim.api.nvim_win_get_buf(win)
         file_path = vim.api.nvim_buf_get_name(buf)
         res = mysplit(file_path, "/")
@@ -1079,7 +1156,7 @@ map("n", "<A-j>", function ()
         
         search_res = string.find(file_name, user_res)
         if search_res then
-            vim.api.nvim_set_current_tabpage(tabi)
+            vim.api.nvim_set_current_tabpage(tab_pos)
             vim.api.nvim_echo({}, false, {})
             return
         end
@@ -1087,4 +1164,57 @@ map("n", "<A-j>", function ()
     vim.api.nvim_notify("TabJump: No match found", 0, {})
 end)
 
+-- Search helper
 
+local function visual_selection_range()
+  local _, csrow, cscol, _ = unpack(vim.fn.getpos("'<"))
+  local _, cerow, cecol, _ = unpack(vim.fn.getpos("'>"))
+  if csrow < cerow or (csrow == cerow and cscol <= cecol) then
+    return csrow - 1, cscol - 1, cerow - 1, cecol
+  else
+    return cerow - 1, cecol - 1, csrow - 1, cscol
+  end
+end
+
+function get_current_selected()
+    local current_mode = vim.api.nvim_get_mode()['mode']
+    if (
+        current_mode == "v" or
+        current_mode == "V"
+    ) then
+        local _, select_start_row, select_start_col, _ = unpack(vim.fn.getpos("'<"))
+        local _, select_end_row, select_end_col, _ = unpack(vim.fn.getpos("'>"))
+
+        -- get the range 
+        -- print(select_start_row, select_start_col)
+        -- print(select_end_row, select_end_col)
+        selected_text = vim.api.nvim_buf_get_text(0, select_start_row-1, select_start_col-1, select_end_row-1, select_end_col-1, {})
+        if #selected_text == 0 then
+            return nil
+        end
+        return selected_text[1]
+    end
+    return nil
+end
+
+-- Search the term selected
+function handle_search_selection()
+    selected = get_current_selected()
+    if selected == nil then
+        return nil
+    end
+    
+    vim.api.nvim_exec(
+        "normal! /lelhello",
+        false
+    )
+
+end
+
+map("n", "<Leader>S", handle_search_selection)
+map("v", "<Leader>S", handle_search_selection)
+
+-- Restrict the search to a range
+-- map("n", "<Leader>S", function ()
+    
+-- end)
