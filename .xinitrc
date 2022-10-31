@@ -49,5 +49,13 @@ greenclip daemon &
 eval $(gnome-keyring-daemon --start)
 export SSH_AUTH_SOCK
 
+# Start blueman
+blueman-applet &
+
+# Start network manager applet
+nm-applet &
+
+sh $HOME/dots/scripts/refresh_wallpapers.sh &
+
 i3
 
