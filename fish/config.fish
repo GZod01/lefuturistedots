@@ -5,9 +5,10 @@ source ~/.config/fish/machine.fish
 fish_vi_key_bindings
 #fish_default_key_bindings
 
-
 # install zoxide
 zoxide init fish | source
+
+set -Ux EDITOR nvim
 
 set PATH ~/.bin $PATH
 set PATH ~/.npm-global/bin $PATH
@@ -84,9 +85,9 @@ alias around='dash ~/dots/scripts/around.sh'
 # Identify the output of a piped program (stdout or stderr)
 alias idoutput='dash ~/dots/scripts/idoutput.sh'
 
-alias cdc="cd /mnt/data/_content"
-alias cdw="cd /mnt/data/workspace"
-alias cdq="cd /mnt/data/workspace/quasator"
+alias cdc="cd ~/content"
+alias cdw="cd ~/workspace"
+alias cdq="cd ~/workspace/quasator"
 
 # disable bell sound
 # alias less='less -Q'
