@@ -131,7 +131,26 @@ require("packer").startup(function()
 
     use("nvim-lua/plenary.nvim")
     use("nvim-lua/popup.nvim")
-    use("nvim-telescope/telescope.nvim")
+    use {
+        "nvim-telescope/telescope.nvim",
+        config = function()
+            local actions = require('telescope.actions')
+
+            require('telescope').setup {
+                defaults = {
+                    mappings = {
+                        i = {
+                            ['<C-Down>'] = actions.cycle_history_next,
+                            ['<C-Up>'] = actions.cycle_history_prev
+                        }
+                    }
+                }
+            }
+        end
+    }
+    use {
+        "nvim-telescope/telescope-live-grep-args.nvim"
+    }
 
     use {
         -- neotree
@@ -630,29 +649,36 @@ map("n", "<C-p>", function ()
 end)
 
 map("n", "<Leader>fg", function ()
-  require('telescope.builtin').live_grep()
+    -- previously was:
+    -- require('telescope.builtin').live_grep()
+
+    -- use '"search" --type py' to search in python file only
+    -- or use '"search" -g "*.py"' to do glob search on file name
+
+    -- another cool feature will be to do only search on a subdirectory (preferentially the current directory of neotree)
+    require('telescope').extensions.live_grep_args.live_grep_args()
 end)
 
 map("n", "<Leader>fb", function ()
-  require('telescope.builtin').buffers()
+    require('telescope.builtin').buffers()
 end)
 
 map("n", "<Leader>fh", function ()
-  require('telescope.builtin').help_tags()
+    require('telescope.builtin').help_tags()
 end)
 
 map("n", "<Leader>fs", function ()
-  require('telescope.builtin').lsp_workspace_symbols()
+    require('telescope.builtin').lsp_workspace_symbols()
 end)
 
 map("n", "<Leader>fw", function ()
-  -- useful to quickly jump to ANY workspace symbols (also include random variables)
-  require('telescope.builtin').lsp_dynamic_workspace_symbols()
+    -- useful to quickly jump to ANY workspace symbols (also include random variables)
+    require('telescope.builtin').lsp_dynamic_workspace_symbols()
 end)
 
 map("n", "<Leader>fW", function ()
-  -- useful to quickly jump to major workspace symbols (class, functions, interfaces, etc...)
-  -- require('telescope.builtin').lsp_dynamic_workspace_symbols()
+    -- useful to quickly jump to major workspace symbols (class, functions, interfaces, etc...)
+    -- require('telescope.builtin').lsp_dynamic_workspace_symbols()
 end)
 
 -- Search for symbols accross project
